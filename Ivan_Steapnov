@@ -1,0 +1,12 @@
+import pandas as pd
+import numpy as np
+csvfile = pd.read_csv('user_course_progress.csv', encoding='utf-8',)
+data_time_begin = csvfile.time_created
+data_time_end = csvfile.time_updated
+csvfile.time_created = pd.to_datetime(csvfile.time_created)
+csvfile.time_updated = pd.to_datetime(csvfile.time_updated)
+csvfile['time_lead'] = csvfile['time_updated'] - csvfile['time_created']
+csvfile['time_lead_sec'] = csvfile['time_lead'].dt.total_seconds()
+csvfile['speed'] = csvfile['time_lead_sec'] / (csvfile['modules_achieved'] + csvfile['advanced_modules_done'])
+csvfile.head(50)
+## поле speed характеризует скорость выполнения курса
